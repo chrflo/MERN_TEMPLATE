@@ -1,0 +1,11 @@
+{"message":"Get the JWT Payload: {\"id\":\"5ba867d1ed17a6f0cddd6ec1\",\"name\":\"Christopher\",\"email\":\"florac@flora.com\",\"iat\":1537826027,\"exp\":1537829627}","level":"info"}
+{"message":"Finding user by ID: {\"_id\":\"5ba867d1ed17a6f0cddd6ec1\",\"name\":\"Christopher\",\"userName\":\"florac\",\"email\":\"florac@flora.com\",\"password\":\"$2a$10$xiMzxZgsnbrYF7K11ae9y.E0R5EEQiwcCYIbjvkrQeNaxR4.e7p.i\",\"date\":\"2018-09-24T04:28:01.028Z\",\"__v\":0}","level":"info"}
+{"message":"Get the JWT Payload: {\"id\":\"5ba867d1ed17a6f0cddd6ec1\",\"name\":\"Christopher\",\"email\":\"florac@flora.com\",\"iat\":1537826027,\"exp\":1537829627}","level":"info"}
+{"message":"Finding user by ID: {\"_id\":\"5ba867d1ed17a6f0cddd6ec1\",\"name\":\"Christopher\",\"userName\":\"florac\",\"email\":\"florac@flora.com\",\"password\":\"$2a$10$xiMzxZgsnbrYF7K11ae9y.E0R5EEQiwcCYIbjvkrQeNaxR4.e7p.i\",\"date\":\"2018-09-24T04:28:01.028Z\",\"__v\":0}","level":"info"}
+{"ok":0,"errmsg":"unknown top level operator: $set","code":2,"codeName":"BadValue","operationTime":"6604917002618273793","$clusterTime":{"clusterTime":"6604917002618273793","signature":{"hash":"RS+8udN1uYTdI4EDlLMsw4fQaK8=","keyId":"6580675339616256001"}},"name":"MongoError","level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"message":"{}","level":"error"}
+{"message":"profile.findOneAndUpdate is not a function","level":"error"}
+{"message":"profile.findOneAndUpdate is not a function","level":"error"}

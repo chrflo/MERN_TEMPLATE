@@ -1,7 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 
+//logging
+const {
+	logger
+} = require('./_logging/winston');
 
 /*
  * Bring in the API routes
@@ -15,24 +20,34 @@ const app = express();
  * Body Parser Middleware
  */
 app.use(bodyParser.urlencoded({
-    extended: false
+	extended: false
 }));
 app.use(bodyParser.json());
 
 /*
  * Mongo Database Config and Connection
+ * NOTE: currently mongoose still leverages ensureIndex, 
+ *       this should be updated by them in the future
  */
-const database = require('./config/keys').mongoURI;
+const database = require('./_config/keys').mongoURI;
 mongoose
-    .connect(database)
-    .then(() => {
-        console.log('Connected to Mongo Database');
-    })
-    .catch(err => {
-        console.log(err);
-    });
+	.connect(database, {
+		useNewUrlParser: true
+	})
+	.then(() => {
+		console.log('Connected to Mongo Database');
+	})
+	.catch(err => {
+		console.log(err);
+	});
 
-app.get('/', (req, res) => res.send('Hello World'));
+/*
+ * Setup Passport
+ * 1.init
+ * 2. config
+ */
+app.use(passport.initialize());
+require('./_config/passport.js')(passport);
 
 /*
  * Set up the routes
