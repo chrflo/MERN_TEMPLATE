@@ -1,13 +1,23 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
 
 /*
  * Bring in the API routes
  */
-const template1 = require('./_routes/_api/template1');
-const template2 = require('./_routes/_api/template2');
+const users = require('./_routes/_api/users');
+const profile = require('./_routes/_api/profile');
 
 const app = express();
+
+/*
+ * Body Parser Middleware
+ */
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
+app.use(bodyParser.json());
 
 /*
  * Mongo Database Config and Connection
@@ -27,8 +37,8 @@ app.get('/', (req, res) => res.send('Hello World'));
 /*
  * Set up the routes
  */
-app.use('/api/template1', template1);
-app.use('/api/template1', template2);
+app.use('/api/users', users);
+app.use('/api/profile', profile);
 
 const port = process.env.PORT || 5000;
 
