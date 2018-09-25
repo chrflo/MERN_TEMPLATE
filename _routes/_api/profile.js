@@ -85,7 +85,8 @@ router.get('/', passport.authenticate('jwt', {
 router.post('/', passport.authenticate('jwt', {
 	session: false
 }), (req, res) => {
-	logger.debug('Request Data: ' + JSON.stringify(req.user));
+	logger.debug('User Data: ' + JSON.stringify(req.user));
+	logger.debug('Profile Data: ' + JSON.stringify(req.body));
 
 	/*
 	 * Init Errors 
@@ -93,14 +94,10 @@ router.post('/', passport.authenticate('jwt', {
 	const errors = {};
 
 	const profile = {
-		role: req.body.role,
 		handle: req.user.userName,
-		repoType: req.body.repoType,
-		repo: req.body.repoType,
-		social: req.body.social,
+		role: req.body.role,
 		bio: req.body.bio,
-		experience: req.body.experience,
-		education: req.body.education
+		benchmarkStats: req.body.benchmarkStats
 	};
 
 	Profile.findOne({
@@ -117,23 +114,24 @@ router.post('/', passport.authenticate('jwt', {
 						logger.error(err);
 						return res.status(404).json(err);
 					})
+			} else {
+				//update the profile, find fuctions onthe model, not the instance of it
+				//needs to be in an else since mongoose returns a promise and we don't to continue 
+				Profile.findOneAndUpdate({
+						user: req.user._id
+					}, {
+						$set: profile
+					}, {
+						new: true
+					})
+					.then(p => {
+						return res.json(p);
+					})
+					.catch(err => {
+						logger.error(err);
+						return res.status(404).json(err);
+					});
 			}
-
-			//update the profile, find fuctions onthe model, not the instance of it
-			Profile.findOneAndUpdate({
-					user: req.user._id
-				}, {
-					$set: profile
-				}, {
-					new: true
-				})
-				.then(p => {
-					return res.json(p);
-				})
-				.catch(err => {
-					logger.error(err);
-					return res.status(404).json(err);
-				});
 		})
 		.catch(err => {
 			logger.error(err);

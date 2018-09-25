@@ -24,82 +24,67 @@ const ProfileSchema = new Schema({
         required: true,
         enum: [
             'admin',
-            'developer',
-            'general'
+            'athlete',
+            'coach',
+            'staff'
         ]
     },
-    repoType: {
-        type: String,
-        enum: [
-            'GitHub',
-            'BitBucket',
-            'GitLab',
-            'Other'
-        ]
-    },
-    repo: {
-        type: String
-    },
-    social: {
-        linkedin: {
+    bio: [{
+        about: {
             type: String
         },
-        twitter: {
+        region: {
             type: String
         },
-        facbook: {
-            type: String
-        }
-    },
-    bio: {
-        type: String,
-    },
-    experience: [{
-        employer: {
-            type: String,
-            required: true
+        age: {
+            type: Number
         },
-        title: {
-            type: String,
-            required: true
+        height: {
+            type: Number
         },
-        start: {
-            type: Date,
-            required: true
+        weight: {
+            type: Number
         },
-        to: {
-            type: Date
-        },
-        current: {
-            type: Boolean,
-            default: false
-        },
-        description: {
+        affiliate: {
             type: String
         }
     }],
-    education: [{
-        school: {
-            type: String,
-            required: true
+    benchmarkStats: [{
+        backSquat: {
+            type: Number
         },
-        program: {
-            type: String,
-            required: true
+        cleanAndJerk: {
+            type: Number
         },
-        start: {
-            type: Date,
-            required: true
+        snatch: {
+            type: Number
         },
-        to: {
-            type: Date
+        deadlift: {
+            type: Number
         },
-        current: {
-            type: Boolean,
-            default: false
+        maxPullups: {
+            type: Number
         },
-        description: {
-            type: String
+        fightGoneBad: {
+            type: Number
+        },
+        fran: {
+            type: Number
+        },
+        grace: {
+            type: Number
+        },
+        helen: {
+            type: Number
+        },
+        filthyFifty: {
+            type: Number
+        },
+        fourHundoSprint: {
+            type: Number
+        },
+        fiveKRun: {
+            type: Number
         }
     }]
 });
