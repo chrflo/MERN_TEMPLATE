@@ -4,7 +4,7 @@
   "description": "example template for a MERN stack",
   "main": "server.js",
   "scripts": {
-    "lint": "eslint ./*.js",
+    
     "client-install": "npm install --prefix client",
     "start": "node server.js",
     "client": "npm start --prefix client",
@@ -38,5 +38,8 @@
   },
   "devDependencies": {
     "nodemon": "^1.18.4"
-  }
+  },
+  "eslintIgnore": [
+    "node_modules/"
+  ]
 }
