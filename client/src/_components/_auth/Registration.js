@@ -50,6 +50,14 @@ class Registration extends Component {
       if (!regex.test(value)) throw new Error("Fullname is invalid");
     };
 
+    /*
+     * TODO: on form submit, if there are errors from the server, we will have to update the 
+     * error, we can do this by assigning that to a property in the form field so that it updates 
+     * eg:
+     *  <FormField
+     *              label={this.state.name}
+     */
+
     return (
       <div className="Registration">
         <div className="container">
@@ -60,7 +68,6 @@ class Registration extends Component {
               <form action="create-profile.html">
                 <div className="form-group">
                   <FormField
-                    label={this.state.name}
                     type="text"
                     fieldId="name"
                     placeholder="Enter Fullname"
