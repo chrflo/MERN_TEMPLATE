@@ -17,17 +17,29 @@ class Registration extends Component {
      * take effect until the form component returns
      */
     this.handleChange = formState => {
-      const { fieldName, value } = formState;
+      const { fieldName, value, errors } = formState;
       const data = this.state;
 
       this.setState({
-        ...data,
-        [fieldName]: value,
-        errors: { [fieldName]: formState.errors.length === 0 }
+        ...data, //fill the state with the current state data
+        [fieldName]: value, //overwrite the field that we want
+        errors: { [fieldName]: errors === 0 } // set and update the corresponding error
       });
-
-      console.debug(this.state);
     };
+
+    this.onSubmit = event => {
+      event.preventDefault();
+
+      const user = {
+        name: this.state.name,
+        userName: this.state.userName,
+        email: this.state.email,
+        password: this.state.password,
+        password2: this.state.password2
+      }
+
+      console.log(user);
+    }
 
     this.state = {
       name: "",
@@ -65,7 +77,7 @@ class Registration extends Component {
             <div className="col-md-8 m-auto">
               <h1 className="display-4 text-center">Sign Up</h1>
               <p className="lead text-center">Create your WODLogger account</p>
-              <form action="create-profile.html">
+              <form action="create-profile.html" onSubmit={this.onSubmit}>
                 <div className="form-group">
                   <FormField
                     type="text"

@@ -14,14 +14,11 @@
  * - add in hover over for the text
  */
 
-import React, { Component, Fragment } from "react";
-import PropTypes from "prop-types";
-import zxcvbn from "zxcvbn";
-import ReactTooltip from "react-tooltip";
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import zxcvbn from 'zxcvbn';
 
-import FormField from "./FormField";
-
-import Tooltip from "rc-tooltip";
+import FormField from './FormField';
 
 class PasswordField extends Component {
   constructor(props) {
@@ -35,7 +32,7 @@ class PasswordField extends Component {
     // minStrength must be a a number between 0 - 4
     // the intent here is to disallow a user to proceed if it does not meet a min stength req
     this.minStrength =
-      typeof minStrength === "number"
+      typeof minStrength === 'number'
         ? Math.max(Math.min(minStrength, 5), 0)
         : 3;
 
@@ -43,10 +40,10 @@ class PasswordField extends Component {
     // thresholdLength must be a minimum value of 6
 
     this.thresholdLength =
-      typeof thresholdLength === "number" ? Math.max(thresholdLength, 6) : 6;
+      typeof thresholdLength === 'number' ? Math.max(thresholdLength, 6) : 6;
 
     // initialize internal component state
-    this.state = { password: "", strength: 0 };
+    this.state = { password: '', strength: 0 };
   }
 
   stateChanged = state => {
@@ -64,11 +61,11 @@ class PasswordField extends Component {
   validatePasswordStrong = value => {
     // ensure password is long enough
     if (value.length <= this.thresholdLength)
-      throw new Error("Password is short");
+      throw new Error('Password is short');
 
     // ensure password is strong enough using the zxcvbn library
     if (zxcvbn(value).score < this.minStrength)
-      throw new Error("Password is weak");
+      throw new Error('Password is weak');
   };
 
   render() {
@@ -87,22 +84,22 @@ class PasswordField extends Component {
 
     // dynamically set the password length counter class
     const counterClass = [
-      "badge badge-pill",
+      'badge badge-pill',
       passwordLong
         ? passwordStrong
-          ? "badge-success"
-          : "badge-warning"
-        : "badge-danger"
+          ? 'badge-success'
+          : 'badge-warning'
+        : 'badge-danger'
     ]
-      .join(" ")
+      .join(' ')
       .trim();
 
     // password strength meter is only visible when password is not empty
     const strengthClass = [
-      "strength-meter mt-2",
-      passwordLength > 0 ? "visible" : "invisible"
+      'strength-meter mt-2',
+      passwordLength > 0 ? 'visible' : 'invisible'
     ]
-      .join(" ")
+      .join(' ')
       .trim();
 
     return (
@@ -129,7 +126,7 @@ class PasswordField extends Component {
                 ? passwordLong
                   ? `${this.thresholdLength}+`
                   : passwordLength
-                : ""}
+                : ''}
             </span>
           </div>
         </div>
@@ -139,14 +136,15 @@ class PasswordField extends Component {
 }
 
 PasswordField.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   fieldId: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   required: PropTypes.bool,
   children: PropTypes.node,
   onStateChanged: PropTypes.func,
   minStrength: PropTypes.number,
-  thresholdLength: PropTypes.number
+  thresholdLength: PropTypes.number,
+  highlightOff: PropTypes.bool
 };
 
 export default PasswordField;

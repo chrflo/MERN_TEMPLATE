@@ -25,6 +25,12 @@ img {
   height: 100%;
 }
 
+button.btn {
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
 .card-form {
   opacity: 0.9;
 }

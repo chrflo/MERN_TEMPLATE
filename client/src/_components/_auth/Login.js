@@ -1,10 +1,87 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import FormField from '../_general/FormField';
+import isEmpty from '../../_utils/isObjectEmpty'
 
 class Login extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleChange = event => {
+      const { fieldName, value, errors } = event;
+      const state = this.state;
+      console.log(state);
+
+      this.setState({
+        ...state,
+        [fieldName]: value,
+        errors: { [fieldName]: errors.length === 0 }
+      });
+    };
+
+    this.onSubmit = event => {
+      event.preventDefault();
+
+      const user = {
+        id: this.state.id,
+        password: this.state.password
+      }
+
+      console.log(user);
+    }
+
+    this.state = {
+      id: '',
+      password: '',
+      isAuthenticated: '',
+      errors: {}
+    };
+
+    this.highlightOff = true;
+  }
+
   render() {
+    //Let's validate the the input is not empty
+    const validateInput = fieldId => value => {
+      if (isEmpty(value)) {
+        throw new Error(`${fieldId} cannot be empty.`);
+      }
+    };
+
     return (
       <div className="Login">
-        <h1>Login</h1>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-8 m-auto">
+              <h1 className="display-4 text-center">Login</h1>
+              <form onSubmit={this.onSubmit}>
+                <div className="form-group">
+                  <FormField
+                    type="text"
+                    label="Email or Username"
+                    fieldId="id"
+                    placeholder="Enter email or user id"
+                    onStateChanged={this.handleChange}
+                    highlightOff={this.highlightOff}
+                    validator={validateInput("ID")}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <FormField
+                    label="Password"
+                    fieldId="password"
+                    type="password"
+                    placeholder="Enter password"
+                    onStateChanged={this.handleChange}
+                    highlightOff={this.highlightOff}
+                    validator={validateInput("Password")}
+                  />
+                </div>
+                <input type="submit" className="btn btn-info btn-block mt-4" />
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

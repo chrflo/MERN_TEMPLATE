@@ -1,13 +1,15 @@
 {
+  "parser": "babel-eslint",
   "env": {
     "es6": true,
     "amd": true,
-    "node": true
+    "node": true,
+    "browser": true
   },
   "extends": [
-    "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:prettier/recommended"
+    "prettier",
+    "prettier/react"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -16,8 +18,19 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["react"],
+  "plugins": [
+    "react",
+    "prettier"
+  ],
   "rules": {
+    "prettier/prettier": [
+      "error",
+      "tab",
+      {
+        "singleQuote": true,
+        "semi": true
+      }
+    ],
     "indent": [
       "error",
       "tab",
@@ -25,8 +38,17 @@
         "SwitchCase": 1
       }
     ],
-    "linebreak-style": ["error", "unix"],
-    "quotes": ["error", "single"],
-    "semi": ["error", "always"]
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ]
   }
 }
