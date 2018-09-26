@@ -6,18 +6,21 @@ exports.mongoosCodes = {
 		'email': {
 			code: 1001,
 			type: 'Duplicate not allowed',
-			message: 'The email address entered already exists.'
+			message: 'The email address entered already exists.',
+			property: 'email'
 		},
 		'userName': {
 			code: 1001,
 			type: 'Duplicate not allowed',
-			message: 'The username entered already exists.'
+			message: 'The username entered already exists.',
+			property: 'userName'
 		}
 	},
 	'ukwn': {
 		code: 1666,
 		type: 'Unknown Mongoose Error',
-		message: 'An unknown error occurred with mongoose.'
+		message: 'An unknown error occurred with mongoose.',
+		property: 'unknown'
 	}
 };
 
@@ -25,6 +28,7 @@ exports.unknownErrors = {
 	'ukwn': {
 		code: 6000,
 		type: 'Unknown',
-		message: 'An unknown error occurred'
+		message: 'An unknown error occurred',
+		property: 'unknown'
 	}
 };

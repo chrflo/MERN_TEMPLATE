@@ -3,6 +3,8 @@ import FormField from "../_general/FormField";
 import EmailField from "../_general/EmailField";
 import PasswordField from "../_general/PasswordField";
 import Password2Field from "../_general/Password2Field";
+import axios from 'axios';
+import classnames from 'classnames';
 
 import "../../_styles/password.css";
 
@@ -23,8 +25,13 @@ class Registration extends Component {
       this.setState({
         ...data, //fill the state with the current state data
         [fieldName]: value, //overwrite the field that we want
-        errors: { [fieldName]: errors === 0 } // set and update the corresponding error
+        inputErrors: { [fieldName]: errors.length === 0 }, // set and update the corresponding error
+        errors: {
+          // make sure that we reset the errors for the property when there is a state change
+          [fieldName]: ''
+        }
       });
+
     };
 
     this.onSubmit = event => {
@@ -39,6 +46,27 @@ class Registration extends Component {
       }
 
       console.log(user);
+      //let's register the user
+      //*** proxy value was added to the pacakge JSON so we dont need to add the full route
+      axios.post('api/users/register', user)
+        .then(res => {
+          console.log("State: ");
+          console.log(res.data);
+          return res;
+        })
+        .catch(err => {
+          console.log(err.response.data);
+          const { property, message } = err.response.data;
+
+          this.setState({
+            errors: {
+              [property]: message
+            }
+          });
+
+          console.log("State: ");
+          console.log(this.state);
+        })
     }
 
     this.state = {
@@ -48,6 +76,7 @@ class Registration extends Component {
       password: "",
       password2: "",
       submitted: false,
+      inputErrors: {},
       errors: {}
     };
   }
@@ -69,6 +98,7 @@ class Registration extends Component {
      *  <FormField
      *              label={this.state.name}
      */
+    const { errors } = this.state;
 
     return (
       <div className="Registration">
@@ -94,6 +124,7 @@ class Registration extends Component {
                     fieldId="userName"
                     placeholder="Enter Username"
                     onStateChanged={this.handleChange}
+                    apiError={this.state.errors.userName}
                     required
                   />
                 </div>
@@ -102,6 +133,7 @@ class Registration extends Component {
                     fieldId="email"
                     placeholder="Enter Email Address"
                     onStateChanged={this.handleChange}
+                    apiError={this.state.errors.email}
                     required
                   />
                 </div>
@@ -110,6 +142,7 @@ class Registration extends Component {
                     fieldId="password"
                     placeholder="Enter Password"
                     onStateChanged={this.handleChange}
+                    apiError={this.state.errors.password}
                     required
                   />
                 </div>
@@ -119,6 +152,7 @@ class Registration extends Component {
                     placeholder="Re-enter Password"
                     onStateChanged={this.handleChange}
                     orgPassword={this.state.password}
+                    apiError={this.state.errors.password2}
                     required
                   />
                 </div>

@@ -69,16 +69,29 @@ module.exports = function validateRegistration(userData) {
      * Set the individual if statements to check and set the errors
      */
     if (!nameValid) {
-        errors.name = 'Name must be a length that is between 2 and 30 characters';
+        //TODO: make a function for this
+        errors = {
+            property: "name",
+            message: 'Name must be a length that is between 2 and 30 characters'
+        };
     }
     if (!userNameValid) {
-        errors.userName = 'Username must be a length that is between 5 and 10 characters.';
+        errors = {
+            property: "userName",
+            message: 'Username must be a length that is between 5 and 10 characters.'
+        };
     }
     if (!emailValid) {
-        errors.email = 'The email address provided is not valid.';
+        errors = {
+            property: "email",
+            message: 'The email address provided is not valid.'
+        };
     }
     if (!passwordValid) {
-        errors.password = 'The password provided does not meet the outline stength criteria.';
+        errors = {
+            property: "password",
+            message: 'The password provided does not meet the outline stength criteria.'
+        };
     }
 
     return {

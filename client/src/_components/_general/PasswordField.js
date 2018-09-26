@@ -144,7 +144,8 @@ PasswordField.propTypes = {
   onStateChanged: PropTypes.func,
   minStrength: PropTypes.number,
   thresholdLength: PropTypes.number,
-  highlightOff: PropTypes.bool
+  highlightOff: PropTypes.bool,
+  apiError: PropTypes.string
 };
 
 export default PasswordField;

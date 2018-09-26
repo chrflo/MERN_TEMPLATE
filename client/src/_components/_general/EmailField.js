@@ -34,7 +34,8 @@ EmailField.propTypes = {
   placeholder: PropTypes.string.isRequired,
   required: PropTypes.bool,
   children: PropTypes.node,
-  onStateChanged: PropTypes.func
+  onStateChanged: PropTypes.func,
+  apiError: PropTypes.string
 };
 
 export default EmailField;

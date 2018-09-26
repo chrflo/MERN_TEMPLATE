@@ -27,6 +27,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip';
+import isObjEmpty from '../../_utils/isObjectEmpty'
 
 class FormField extends Component {
 	constructor(props) {
@@ -45,6 +46,7 @@ class FormField extends Component {
 
 			// destructure props - assign default dummy functions to validator and onStateChanged props
 			const {
+				fieldId,
 				label,
 				required = false,
 				validator = f => f,
@@ -59,7 +61,7 @@ class FormField extends Component {
 
 			if (requiredMissing) {
 				// if required and is empty, add required error to state
-				errors = [...errors, `${label} is required`];
+				errors = [...errors, `${fieldId} is required`];
 			} else if ('function' === typeof validator) {
 				try {
 					validator(value);
@@ -94,7 +96,8 @@ class FormField extends Component {
 			highlightOff
 		} = this.props;
 
-		const hasErrors = errors.length > 0;
+		const apiError = isObjEmpty(this.props.apiError) ? '' : this.props.apiError; //Let's check to see if 1. we don't want highlighting & if there is an error from the backend
+		const hasErrors = errors.length > 0 || !isObjEmpty(apiError); //check to make sure that there are no errors that are returned from the API as well
 		const controlClass = !highlightOff
 			? ['form-control', dirty ? (hasErrors ? 'is-invalid' : 'is-valid') : '']
 				.join(" ")
@@ -111,7 +114,7 @@ class FormField extends Component {
 						{/** Render the first error if there are any errors **/}
 						{hasErrors && (
 							<div className="error form-hint font-weight-bold text-right m-0 mb-2">
-								{errors[0]}
+								{errors[0] || apiError}
 							</div>
 						)}
 					</div>
@@ -164,7 +167,8 @@ FormField.propTypes = {
 	children: PropTypes.node,
 	validator: PropTypes.func,
 	onStateChanged: PropTypes.func,
-	highlightOff: PropTypes.bool
+	highlightOff: PropTypes.bool,
+	apiError: PropTypes.string
 };
 
 export default FormField;
