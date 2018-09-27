@@ -65,7 +65,7 @@ export const setCurrentUser = (userData) => {
     }
 }
 
-export const logout = () => dispatch => {
+export const logout = (history) => dispatch => {
     localStorage.removeItem('token'); //remove the expired token from local storage
     setAuthToken(false); // remove the authorization header
     dispatch(setCurrentUser({})); //set the current user to empty i.e.: no user

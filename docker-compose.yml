@@ -1,0 +1,19 @@
+version: '2.1'
+
+services:
+  server:
+    image: mern_template_server
+    build: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 5000:5000
+    command: npm run server
+  react-app:
+    image: mern_template_server
+    build: ./client
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+    command: npm start

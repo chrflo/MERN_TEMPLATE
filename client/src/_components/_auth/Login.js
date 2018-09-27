@@ -13,7 +13,6 @@ class Login extends Component {
     this.handleChange = event => {
       const { fieldName, value, errors } = event;
       const state = this.state;
-      console.log(state);
 
       this.setState({
         ...state,
