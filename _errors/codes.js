@@ -32,3 +32,12 @@ exports.unknownErrors = {
 		property: 'unknown'
 	}
 };
+
+exports.apiErrors = {
+	'ukwn': {
+		code: 2666,
+		type: 'Unknown API Error',
+		message: 'An unknown API error occurred.',
+		property: 'unknown'
+	}
+}

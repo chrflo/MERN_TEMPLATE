@@ -8,14 +8,13 @@ const errorCodes = require('./codes');
 
 exports.handler = function (type, err) {
 	switch (type) {
-		case errorTypes.MONGOOSE_ERROR:
-		{
+		case errorTypes.MONGOOSE_ERROR: {
 			const code = err.code;
 			const msg = err.errmsg;
 
 			//Duplicate index
 			if (code === 11000) {
-			//check to see if it contain email or userName
+				//check to see if it contain email or userName
 				if (msg.includes('email')) {
 					return errorCodes.mongoosCodes.dup.email;
 				} else if (msg.includes('userName')) {
@@ -25,8 +24,10 @@ exports.handler = function (type, err) {
 
 			return errorCodes.mongoosCodes.ukwn.originalError = err;
 		}
-		default:
-		{
+		case errorTypes.API_ERROR: {
+			return errorCodes.apiErrors.ukwn;
+		}
+		default: {
 			return errorCodes.unknownErrors.ukwn;
 		}
 	}

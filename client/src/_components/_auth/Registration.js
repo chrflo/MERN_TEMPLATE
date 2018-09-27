@@ -1,10 +1,13 @@
 import React, { Component } from "react";
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { registerUser } from '../../_actions/authActions'
+import PropTypes from 'prop-types';
+
 import FormField from "../_general/FormField";
 import EmailField from "../_general/EmailField";
 import PasswordField from "../_general/PasswordField";
 import Password2Field from "../_general/Password2Field";
-import axios from 'axios';
-import classnames from 'classnames';
 
 import "../../_styles/password.css";
 
@@ -45,28 +48,18 @@ class Registration extends Component {
         password2: this.state.password2
       }
 
-      console.log(user);
-      //let's register the user
-      //*** proxy value was added to the pacakge JSON so we dont need to add the full route
-      axios.post('api/users/register', user)
-        .then(res => {
-          console.log("State: ");
-          console.log(res.data);
-          return res;
-        })
-        .catch(err => {
-          console.log(err.response.data);
-          const { property, message } = err.response.data;
+      this.props.registerUser(user, this.props.history);
+    }
 
-          this.setState({
-            errors: {
-              [property]: message
-            }
-          });
-
-          console.log("State: ");
-          console.log(this.state);
-        })
+    /*
+     * Since we are using Redux and the properties are form the respective reducers
+     * Add a new life cylce method to check when the component recieves new properties 
+     * so that we are able to update the state accordingly 
+     */
+    this.componentWillReceiveProps = (nextProps) => {
+      if (nextProps.errors) {
+        this.setState({ errors: nextProps.errors });
+      }
     }
 
     this.state = {
@@ -124,7 +117,7 @@ class Registration extends Component {
                     fieldId="userName"
                     placeholder="Enter Username"
                     onStateChanged={this.handleChange}
-                    apiError={this.state.errors.userName}
+                    apiError={errors.userName}
                     required
                   />
                 </div>
@@ -133,7 +126,7 @@ class Registration extends Component {
                     fieldId="email"
                     placeholder="Enter Email Address"
                     onStateChanged={this.handleChange}
-                    apiError={this.state.errors.email}
+                    apiError={errors.email}
                     required
                   />
                 </div>
@@ -142,7 +135,7 @@ class Registration extends Component {
                     fieldId="password"
                     placeholder="Enter Password"
                     onStateChanged={this.handleChange}
-                    apiError={this.state.errors.password}
+                    apiError={errors.password}
                     required
                   />
                 </div>
@@ -152,7 +145,7 @@ class Registration extends Component {
                     placeholder="Re-enter Password"
                     onStateChanged={this.handleChange}
                     orgPassword={this.state.password}
-                    apiError={this.state.errors.password2}
+                    apiError={errors.password2}
                     required
                   />
                 </div>
@@ -166,4 +159,18 @@ class Registration extends Component {
   }
 }
 
-export default Registration;
+//get the auth state into component
+const mapStateToProps = (state) => ({
+  auth: state.auth, //comes from root reducer
+  errors: state.errors
+});
+
+Registration.propTypes = {
+  registerUser: PropTypes.func,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+  history: PropTypes.object //let's us redirect within action
+}
+
+//map the action to the component
+export default connect(mapStateToProps, { registerUser })(withRouter(Registration));

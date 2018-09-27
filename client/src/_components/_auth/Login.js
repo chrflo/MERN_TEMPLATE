@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import FormField from '../_general/FormField';
 import isEmpty from '../../_utils/isObjectEmpty'
+import { login } from '../../_actions/authActions'
+import PropTypes from 'prop-types';
 
 class Login extends Component {
   constructor(props) {
@@ -26,7 +30,23 @@ class Login extends Component {
         password: this.state.password
       }
 
-      console.log(user);
+      this.props.login(user, this.props.history);
+    }
+
+    /*
+     * Since we are using Redux and the properties are form the respective reducers
+     * Add a new life cylce method to check when the component recieves new properties 
+     * so that we are able to update the state accordingly 
+     */
+    this.componentWillReceiveProps = (nextProps) => {
+      //let's see if the user is logged in and if so move to the dashboard
+      if (nextProps.auth.isAuthenticated) {
+        this.props.history.push('/dashboard');
+      }
+
+      if (nextProps.errors) {
+        this.setState({ errors: nextProps.errors });
+      }
     }
 
     this.state = {
@@ -39,6 +59,7 @@ class Login extends Component {
     this.highlightOff = true;
   }
 
+  //TODO: errors
   render() {
     //Let's validate the the input is not empty
     const validateInput = fieldId => value => {
@@ -87,4 +108,17 @@ class Login extends Component {
   }
 }
 
-export default Login;
+//get the auth state into component
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+  history: PropTypes.object
+}
+
+export default connect(mapStateToProps, { login })(withRouter(Login));

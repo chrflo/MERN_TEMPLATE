@@ -88,16 +88,17 @@ router.post('/register', (req, res) => {
  * @access  Public
  */
 router.post('/login', (req, res) => {
-	const loginID = req.body.loginID;
+	const loginID = req.body.id;
 	const password = req.body.password;
 	const field = (validator.validate(loginID)) ? 'email' : 'userName';
 	User.findOne({
-			[field]: loginID
-		})
+		[field]: loginID
+	})
 		.then((user) => {
 			if (!user) {
 				return res.status(404).json({
-					[field]: 'The user or password is incorrect.'
+					message: `The provided user id ${loginID} is not registerd.`, //TODO: don't this, make it generic user or pass don't match otherwise people can fish
+					property: field
 				});
 			}
 
@@ -120,8 +121,8 @@ router.post('/login', (req, res) => {
 						 * 4. what happens when it is successful
 						 */
 						jwt.sign(payload, keys.secret, {
-								expiresIn: 3600
-							},
+							expiresIn: 3600
+						},
 							(err, token) => {
 								res.json({
 									success: true,
@@ -130,7 +131,8 @@ router.post('/login', (req, res) => {
 							}); //TODO: make this expires in reset every time the user is active on the page
 					} else {
 						return res.status(400).json({
-							message: 'The user or password is incorrect.'
+							message: 'The user or password is incorrect.',
+							property: 'userID'
 						});
 					}
 				})

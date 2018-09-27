@@ -47,7 +47,6 @@ class FormField extends Component {
 			// destructure props - assign default dummy functions to validator and onStateChanged props
 			const {
 				fieldId,
-				label,
 				required = false,
 				validator = f => f,
 				onStateChanged = f => f
